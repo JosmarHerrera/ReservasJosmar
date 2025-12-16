@@ -36,13 +36,18 @@ public class SecurityConfig {
 
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
-		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
-		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-		configuration.setAllowedHeaders(Arrays.asList("*"));
-		configuration.setAllowCredentials(true);
+		CorsConfiguration config = new CorsConfiguration();
+		config.setAllowCredentials(true);
+
+		// ✅ Permitir local y Railway (AGREGADO)
+		config.addAllowedOriginPattern("http://localhost:3000");
+		config.addAllowedOriginPattern("https://frontjosmar-production.up.railway.app");
+
+		config.addAllowedHeader("*");
+		config.addAllowedMethod("*");
+
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration);
+		source.registerCorsConfiguration("/**", config);
 		return source;
 	}
 }
